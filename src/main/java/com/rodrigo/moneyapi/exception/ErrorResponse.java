@@ -1,13 +1,17 @@
 package com.rodrigo.moneyapi.exception;
 
-public class ErroResposta {
+public class ErrorResponse {
 
     private String mensagemUsuario;
     private String mensagemDesenvolvedor;
 
-    public ErroResposta(String mensagemUsuario, String mensagemDesenvolvedor) {
+    public ErrorResponse(String mensagemUsuario, String mensagemDesenvolvedor) {
         this.mensagemUsuario = mensagemUsuario;
         this.mensagemDesenvolvedor = mensagemDesenvolvedor;
+    }
+
+    public ErrorResponse(String mensagemUsuario) {
+        this.mensagemUsuario = mensagemUsuario;
     }
 
     public String getMensagemUsuario() {

@@ -30,11 +30,7 @@ public class PessoaController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<?> buscarPorCodigo(@PathVariable Long codigo) {
-        Optional<Pessoa> pessoa = service.buscarPessoasPorCodigo(codigo);
-        if(!pessoa.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(pessoa);
+        return ResponseEntity.ok().body(service.buscarPessoasPorCodigo(codigo));
     }
 
     @PostMapping
@@ -43,5 +39,36 @@ public class PessoaController {
         URI uri = uriBuilder.path("/pessoas/{codigo}").buildAndExpand(pessoaSalva.getCodigo()).toUri();
         return ResponseEntity.created(uri).body(pessoaSalva);
     }
+
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<Pessoa> remover(@PathVariable Long codigo) {
+        service.remover(codigo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{codigo}")
+    public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
+        return ResponseEntity.ok().body(service.atualizar(codigo, pessoa));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

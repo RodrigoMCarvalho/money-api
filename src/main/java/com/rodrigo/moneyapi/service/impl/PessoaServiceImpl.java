@@ -1,9 +1,12 @@
 package com.rodrigo.moneyapi.service.impl;
 
+import com.rodrigo.moneyapi.exception.ResourceNotFoundException;
 import com.rodrigo.moneyapi.model.Pessoa;
 import com.rodrigo.moneyapi.repository.PessoaRepository;
 import com.rodrigo.moneyapi.service.PessoaService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -32,7 +35,22 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public Optional<Pessoa> buscarPessoasPorCodigo(Long codigo) {
-        return repository.findById(codigo);
+    public Pessoa buscarPessoasPorCodigo(Long codigo) {
+        Optional<Pessoa> pessoa = repository.findById(codigo);
+        return pessoa.orElseThrow(() -> new EmptyResultDataAccessException(1)); //new ResourceNotFoundException("Não foi possível localizar pessoa com o código: " + codigo));
+    }
+
+    @Override
+    @Transactional
+    public void remover(Long codigo) {
+        Pessoa pessoa = buscarPessoasPorCodigo(codigo);
+        repository.deleteById(pessoa.getCodigo());
+    }
+
+    @Override
+    public Pessoa atualizar(Long codigo, Pessoa pessoa) {
+        Pessoa pessoaSalva = buscarPessoasPorCodigo(codigo);
+        BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
+        return repository.save(pessoaSalva);
     }
 }
