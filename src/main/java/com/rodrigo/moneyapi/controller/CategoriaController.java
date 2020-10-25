@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +38,10 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, UriComponentsBuilder uriBuilder) {
-        Categoria cat = service.criarCategoria(categoria);
-        URI uri = uriBuilder.path("/categorias/{codigo}").buildAndExpand(cat.getCodigo()).toUri();
-        return ResponseEntity.created(uri).body(cat);
+    public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, UriComponentsBuilder uriBuilder) {
+        Categoria categoriaSalva = service.cadastracategoria(categoria);
+        URI uri = uriBuilder.path("/categorias/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
+        return ResponseEntity.created(uri).body(categoriaSalva);
     }
 
 

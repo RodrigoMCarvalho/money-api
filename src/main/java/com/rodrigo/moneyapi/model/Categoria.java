@@ -1,6 +1,8 @@
 package com.rodrigo.moneyapi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categoria")
@@ -10,6 +12,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @NotNull(message = "{categoria.nome.obrigatorio}")
+    @Size(message = "{categoria.nome.tamanho}", min = 5, max = 50)
     private String nome;
 
     public Long getCodigo() {

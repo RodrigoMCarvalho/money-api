@@ -9,5 +9,5 @@ public interface CategoriaService {
 
     List<Categoria> buscarCategorias();
     Optional<Categoria> buscarCategoriaPorCodigo(Long codigo);
-    Categoria criarCategoria(Categoria categoria);
+    Categoria cadastracategoria(Categoria categoria);
 }

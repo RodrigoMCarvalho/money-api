@@ -5,6 +5,8 @@ import com.rodrigo.moneyapi.repository.CategoriaRepository;
 import com.rodrigo.moneyapi.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +27,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Optional<Categoria> buscarCategoriaPorCodigo(Long codigo) {
-        Optional<Categoria> categoria = repository.findById(codigo);
-        return categoria;
+        return repository.findById(codigo);
     }
 
-    @Override
-    public Categoria criarCategoria(Categoria categoria) {
+    @Transactional
+    public Categoria cadastracategoria(Categoria categoria) {
         return repository.save(categoria);
     }
 }
