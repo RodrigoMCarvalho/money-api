@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.swing.text.StyledEditorKit;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -49,6 +50,12 @@ public class PessoaController {
     @PutMapping("/{codigo}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
         return ResponseEntity.ok().body(service.atualizar(codigo, pessoa));
+    }
+
+    @PutMapping("/{codigo}/ativo")
+    public ResponseEntity<Pessoa> atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
+        service.atualizarPropriedadeAtivo(codigo, ativo);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -11,4 +11,5 @@ public interface PessoaService {
     Pessoa buscarPessoasPorCodigo(Long codigo);
     void remover(Long codigo);
     Pessoa atualizar(Long codigo, Pessoa pessoa);
+    void atualizarPropriedadeAtivo(Long codigo, Boolean ativo);
 }

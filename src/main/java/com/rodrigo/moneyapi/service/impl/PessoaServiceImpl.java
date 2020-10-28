@@ -53,4 +53,30 @@ public class PessoaServiceImpl implements PessoaService {
         BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
         return repository.save(pessoaSalva);
     }
+
+    @Override
+    public void atualizarPropriedadeAtivo(Long codigo, Boolean ativo) {
+        Pessoa pessoaSalva = buscarPessoasPorCodigo(codigo);
+        pessoaSalva.setAtivo(ativo);
+        repository.save(pessoaSalva);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
