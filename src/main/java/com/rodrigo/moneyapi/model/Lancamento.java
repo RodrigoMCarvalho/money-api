@@ -12,8 +12,12 @@ public class Lancamento {
     private Long codigo;
     private String descricao;
 
-    @Column(name = "data_pagamento")
+    @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
+
+    @Column(name = "data_pagamento")
+    private LocalDate dataPagamento;
+
     private BigDecimal valor;
     private String observacao;
 
