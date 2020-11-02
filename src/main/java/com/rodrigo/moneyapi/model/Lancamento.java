@@ -8,7 +8,8 @@ import java.util.Objects;
 @Entity
 public class Lancamento {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
     private String descricao;
 
