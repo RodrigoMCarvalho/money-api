@@ -1,7 +1,10 @@
 package com.rodrigo.moneyapi.service.impl;
 
+import com.rodrigo.moneyapi.exception.PessoaInexistenteOuInativaException;
 import com.rodrigo.moneyapi.model.Lancamento;
+import com.rodrigo.moneyapi.model.Pessoa;
 import com.rodrigo.moneyapi.repository.LancamentoRepository;
+import com.rodrigo.moneyapi.repository.PessoaRepository;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,25 +15,35 @@ import java.util.List;
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
 
-    private LancamentoRepository repository;
+    private LancamentoRepository lancamentoRepository;
+    private PessoaRepository pessoaRepository;
 
     @Autowired
-    public LancamentoServiceImpl(LancamentoRepository repository) {
-        this.repository = repository;
+    public LancamentoServiceImpl(LancamentoRepository lancamentoRepository, PessoaRepository pessoaRepository) {
+        this.lancamentoRepository = lancamentoRepository;
+        this.pessoaRepository = pessoaRepository;
     }
 
     @Override
     public List<Lancamento> buscarLancamentos() {
-        return repository.findAll();
+        return lancamentoRepository.findAll();
     }
 
     @Override
     public Lancamento buscarLancamentoPorCodigo(Long codigo) {
-        return repository.findById(codigo).orElseThrow(() -> new EmptyResultDataAccessException(1));
+        return lancamentoRepository.findById(codigo).orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 
     @Override
     public Lancamento cadastrarLancamento(Lancamento lancamento) {
-        return repository.save(lancamento);
+        Pessoa pessoa = pessoaRepository.findById(lancamento.getPessoa().getCodigo()).get();
+        if(pessoa == null || pessoa.isInativo()) {
+            throw new PessoaInexistenteOuInativaException();
+        }
+        return lancamentoRepository.save(lancamento);
     }
+
+
+
+
 }

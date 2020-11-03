@@ -1,5 +1,7 @@
 package com.rodrigo.moneyapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +20,12 @@ public class Pessoa {
 
     @NotNull(message = "{pessoa.ativo.obrigatorio}")
     private Boolean ativo;
+
+    @JsonIgnore
+    @Transient
+    public boolean isInativo() {
+        return !this.ativo;
+    }
 
     public Long getCodigo() {
         return codigo;

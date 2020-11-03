@@ -1,6 +1,7 @@
 package com.rodrigo.moneyapi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,6 +12,8 @@ public class Lancamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+
+    @NotNull(message = "Campo descrição obrigatório")
     private String descricao;
 
     @Column(name = "data_vencimento")
@@ -27,10 +30,12 @@ public class Lancamento {
 
     @ManyToOne
     @JoinColumn(name = "codigo_categoria")
+    @NotNull(message = "Campo categoria obrigatório")
     private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
+    @NotNull(message = "Campo pessoa obrigatório")
     private Pessoa pessoa;
 
     public Long getCodigo() {

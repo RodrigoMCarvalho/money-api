@@ -2,6 +2,7 @@ package com.rodrigo.moneyapi.controller;
 
 import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.service.LancamentoService;
+import com.rodrigo.moneyapi.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

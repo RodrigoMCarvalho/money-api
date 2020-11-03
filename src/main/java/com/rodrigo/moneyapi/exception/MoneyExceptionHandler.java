@@ -72,10 +72,18 @@ public class MoneyExceptionHandler  extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler (PessoaInexistenteOuInativaException.class)
+    public ResponseEntity<?> handlerPessoaInexistenteOuInativaException(PessoaInexistenteOuInativaException ex, WebRequest request) {
+        String mensagemUsuario = messageSource.getMessage("pessoa.inexistente.inativa", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        List<ErrorResponse> erros = Arrays.asList(new ErrorResponse(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handlerDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null, LocaleContextHolder.getLocale());
-        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        String mensagemDesenvolvedor = ex.toString();
         List<ErrorResponse> erros = Arrays.asList(new ErrorResponse(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

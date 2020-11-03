@@ -54,8 +54,7 @@ public class PessoaController {
 
     @PutMapping("/{codigo}/ativo")
     public ResponseEntity<Pessoa> atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
-        service.atualizarPropriedadeAtivo(codigo, ativo);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(service.atualizarPropriedadeAtivo(codigo, ativo));
     }
 
 
