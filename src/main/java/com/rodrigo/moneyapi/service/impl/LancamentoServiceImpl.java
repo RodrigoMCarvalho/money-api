@@ -5,6 +5,7 @@ import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.model.Pessoa;
 import com.rodrigo.moneyapi.repository.LancamentoRepository;
 import com.rodrigo.moneyapi.repository.PessoaRepository;
+import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,6 +28,11 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     public List<Lancamento> buscarLancamentos() {
         return lancamentoRepository.findAll();
+    }
+
+    @Override
+    public List<Lancamento> buscarLancamentosPorFiltro(LancamentoFilter filter) {
+        return lancamentoRepository.filtrar(filter);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.rodrigo.moneyapi.controller;
 
 import com.rodrigo.moneyapi.model.Lancamento;
+import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
 import com.rodrigo.moneyapi.service.LancamentoService;
-import com.rodrigo.moneyapi.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +26,11 @@ public class LancamentoController {
     @GetMapping
     public ResponseEntity<List<Lancamento>> buscar() {
         return ResponseEntity.ok().body(service.buscarLancamentos());
+    }
+
+    @GetMapping("/filtrar")
+    public ResponseEntity<List<Lancamento>> buscarPorFiltro(@RequestBody LancamentoFilter filter) {
+        return ResponseEntity.ok().body(service.buscarLancamentosPorFiltro(filter));
     }
 
     @GetMapping("/{codigo}")
