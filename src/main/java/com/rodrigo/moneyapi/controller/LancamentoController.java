@@ -27,8 +27,7 @@ public class LancamentoController {
 
     /**
      * Realiza busca de lançamentos com a opção de filtro e paginação
-     * http://localhost:8080/lancamentos/filtrar?dataVencimentoDe=2020-01-01
-     * http://localhost:8080/lancamentos?size=3&page=0
+     * http://localhost:8080/lancamentos?descricao=conta&dataVencimentoDe=2020-01-01&size=3&page=0
      * @param filter
      * @param pageable
      * @return lista de lançamentos
