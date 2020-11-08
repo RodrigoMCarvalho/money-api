@@ -4,6 +4,8 @@ import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,14 +25,17 @@ public class LancamentoController {
         this.service = service;
     }
 
+    /**
+     * Realiza busca de lançamentos com a opção de filtro e paginação
+     * http://localhost:8080/lancamentos/filtrar?dataVencimentoDe=2020-01-01
+     * http://localhost:8080/lancamentos?size=3&page=0
+     * @param filter
+     * @param pageable
+     * @return lista de lançamentos
+     */
     @GetMapping
-    public ResponseEntity<List<Lancamento>> buscar() {
-        return ResponseEntity.ok().body(service.buscarLancamentos());
-    }
-
-    @GetMapping("/filtrar")
-    public ResponseEntity<List<Lancamento>> buscarPorFiltro(@RequestBody LancamentoFilter filter) {
-        return ResponseEntity.ok().body(service.buscarLancamentosPorFiltro(filter));
+    public ResponseEntity<Page<Lancamento>> buscar(LancamentoFilter filter, Pageable pageable) {
+        return ResponseEntity.ok().body(service.buscarLancamentosPorFiltro(filter, pageable));
     }
 
     @GetMapping("/{codigo}")
@@ -43,5 +48,11 @@ public class LancamentoController {
         Lancamento lancamentoSalva = service.cadastrarLancamento(lancamento);
         URI uri = uriBuilder.path("/lancamentos/{codigo}").buildAndExpand(lancamentoSalva.getCodigo()).toUri();
         return ResponseEntity.created(uri).body(lancamentoSalva);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Lancamento> deletar(@PathVariable Long id) {
+        service.excluirLancamento(id);
+        return ResponseEntity.noContent().build();
     }
 }

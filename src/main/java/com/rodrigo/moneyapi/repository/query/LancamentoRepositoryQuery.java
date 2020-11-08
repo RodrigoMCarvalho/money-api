@@ -2,10 +2,10 @@ package com.rodrigo.moneyapi.repository.query;
 
 import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface LancamentoRepositoryQuery {
 
-    List<Lancamento> filtrar(LancamentoFilter filter);
+    Page<Lancamento> filtrar(LancamentoFilter filter, Pageable pageable);
 }

@@ -9,6 +9,8 @@ import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +33,8 @@ public class LancamentoServiceImpl implements LancamentoService {
     }
 
     @Override
-    public List<Lancamento> buscarLancamentosPorFiltro(LancamentoFilter filter) {
-        return lancamentoRepository.filtrar(filter);
+    public Page<Lancamento> buscarLancamentosPorFiltro(LancamentoFilter filter, Pageable pageable) {
+        return lancamentoRepository.filtrar(filter, pageable);
     }
 
     @Override
@@ -49,7 +51,11 @@ public class LancamentoServiceImpl implements LancamentoService {
         return lancamentoRepository.save(lancamento);
     }
 
-
+    @Override
+    public void excluirLancamento(Long id) {
+        buscarLancamentoPorCodigo(id);
+        lancamentoRepository.deleteById(id);
+    }
 
 
 }
