@@ -1,3 +1,4 @@
+/*
 package com.rodrigo.moneyapi.security;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -30,3 +31,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 }
+*/
