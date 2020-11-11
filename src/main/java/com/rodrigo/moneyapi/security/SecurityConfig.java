@@ -1,4 +1,4 @@
-package com.rodrigo.moneyapi.config;
+package com.rodrigo.moneyapi.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -30,9 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/categorias").permitAll()
+                .antMatchers(HttpMethod.POST,"/auth").permitAll()
                 .anyRequest().authenticated()
             .and()
-                .formLogin();
+                .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //nao eh para criar sessao pois sera utilizado token
     }
 
     //Configurações de recursos estáticos
@@ -41,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(web);
     }
 
+    //o Spring não consegue injetar AuthenticationManager
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

@@ -20,7 +20,9 @@ public class Usuario implements UserDetails {
 
     //Por padrao, *ToMany não carrega a lista, pois eh lazy
     @ManyToMany(fetch = FetchType.EAGER)
-    List<Permissao> permissaos = new ArrayList<>();
+    @JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario")
+            , inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
+    List<Permissao> permissoes = new ArrayList<>();
 
     @Override
     public int hashCode() {
@@ -79,17 +81,17 @@ public class Usuario implements UserDetails {
         this.senha = senha;
     }
 
-    public List<Permissao> getPermissaos() {
-        return permissaos;
+    public List<Permissao> getPermissoes() {
+        return permissoes;
     }
 
-    public void setPermissaos(List<Permissao> permissaos) {
-        this.permissaos = permissaos;
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.permissaos;
+        return this.permissoes;
     }
 
     @Override

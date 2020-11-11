@@ -1,4 +1,4 @@
-package com.rodrigo.moneyapi.config;
+package com.rodrigo.moneyapi.security;
 
 import com.rodrigo.moneyapi.model.Usuario;
 import com.rodrigo.moneyapi.repository.UsuarioRepository;

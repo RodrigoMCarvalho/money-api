@@ -9,8 +9,8 @@ public class MoneyApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MoneyApiApplication.class, args);
-BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println(encoder.encode("123"));
+		/*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		System.out.println(encoder.encode("123"));*/
 	}
 
 }
