@@ -12,13 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AutenticacaoService autenticacaoService;
+    private AutenticacaoService autenticacaoService;
+
+    @Autowired
+    private TokenService tokenService;
 
     //Configurações de autenticação
     @Autowired
@@ -35,7 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
             .and()
                 .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //nao eh para criar sessao pois sera utilizado token
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //nao eh para criar sessao pois sera utilizado token
+            .and()
+                .addFilterBefore(new AutenticacaoTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class); //chamar AutenticacaoTokenFilter antes
     }
 
     //Configurações de recursos estáticos
