@@ -1,5 +1,6 @@
 package com.rodrigo.moneyapi.security;
 
+import com.rodrigo.moneyapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     //Configurações de autenticação
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -41,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //nao eh para criar sessao pois sera utilizado token
             .and()
-                .addFilterBefore(new AutenticacaoTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class); //chamar AutenticacaoTokenFilter antes
+                .addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); //chamar AutenticacaoTokenFilter antes
     }
 
     //Configurações de recursos estáticos
