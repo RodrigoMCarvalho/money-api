@@ -2,6 +2,7 @@ package com.rodrigo.moneyapi.repository.impl;
 
 import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
+import com.rodrigo.moneyapi.repository.projection.ResumoLancamento;
 import com.rodrigo.moneyapi.repository.query.LancamentoRepositoryQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
@@ -46,6 +48,14 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
         adicionarRestricoesDePaginacao(query, pageable);
 
         return new PageImpl<>(query.getResultList(), pageable, total(filter));
+    }
+
+    @Override
+    public Page<ResumoLancamento> resumir(LancamentoFilter filter, Pageable pageable) {
+        Page<Lancamento> lancamentos = filtrar(filter, pageable);
+        return new PageImpl<>(lancamentos.stream()
+                .map(ResumoLancamento::new)
+                .collect(Collectors.toList()));
     }
 
     private Long total(LancamentoFilter filter) {

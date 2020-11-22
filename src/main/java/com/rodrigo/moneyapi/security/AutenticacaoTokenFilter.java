@@ -2,7 +2,6 @@ package com.rodrigo.moneyapi.security;
 
 import com.rodrigo.moneyapi.model.Usuario;
 import com.rodrigo.moneyapi.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,7 +26,7 @@ public class AutenticacaoTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String token = recuperarToke(request);
+        String token = recuperarToken(request);
         boolean valido = tokenService.isValido(token);
         if(valido) {
            autenticarCliente(token);
@@ -42,7 +41,7 @@ public class AutenticacaoTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
-    private String recuperarToke(HttpServletRequest request) {
+    private String recuperarToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if(token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
             return null;

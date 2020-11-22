@@ -6,6 +6,7 @@ import com.rodrigo.moneyapi.model.Pessoa;
 import com.rodrigo.moneyapi.repository.LancamentoRepository;
 import com.rodrigo.moneyapi.repository.PessoaRepository;
 import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
+import com.rodrigo.moneyapi.repository.projection.ResumoLancamento;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
@@ -33,9 +35,25 @@ public class LancamentoServiceImpl implements LancamentoService {
     }
 
     @Override
+    public List<ResumoLancamento> buscarResumoLancamento(Lancamento lancamento) {
+        List<Lancamento> lancamentos = lancamentoRepository.findAll();
+        List<ResumoLancamento> resumoLancamentos = lancamentos.stream()
+                .map(ResumoLancamento::new)
+                .collect(Collectors.toList());
+        return resumoLancamentos;
+    }
+
+    @Override
+    public Page<ResumoLancamento> buscarResumoLancamentosPorFiltro(LancamentoFilter filter, Pageable pageable) {
+        return lancamentoRepository.resumir(filter, pageable);
+    }
+
+    @Override
     public Page<Lancamento> buscarLancamentosPorFiltro(LancamentoFilter filter, Pageable pageable) {
         return lancamentoRepository.filtrar(filter, pageable);
     }
+
+
 
     @Override
     public Lancamento buscarLancamentoPorCodigo(Long codigo) {

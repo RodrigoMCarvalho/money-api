@@ -2,6 +2,7 @@ package com.rodrigo.moneyapi.controller;
 
 import com.rodrigo.moneyapi.model.Lancamento;
 import com.rodrigo.moneyapi.repository.filter.LancamentoFilter;
+import com.rodrigo.moneyapi.repository.projection.ResumoLancamento;
 import com.rodrigo.moneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,18 @@ public class LancamentoController {
     @GetMapping
     public ResponseEntity<Page<Lancamento>> buscar(LancamentoFilter filter, Pageable pageable) {
         return ResponseEntity.ok().body(service.buscarLancamentosPorFiltro(filter, pageable));
+    }
+
+    /**
+     * Realiza busca de lançamentos com a opção de filtro e paginação, caso passe como parâmetro "resumo"
+     * http://localhost:8080/lancamentos?resumo&descricao=salario
+     * @param filter
+     * @param pageable
+     * @return lista resumida de lançamentos
+     */
+    @GetMapping(params = "resumo")
+    public ResponseEntity<Page<ResumoLancamento>> resumir(LancamentoFilter filter, Pageable pageable) {
+        return ResponseEntity.ok().body(service.buscarResumoLancamentosPorFiltro(filter, pageable));
     }
 
     @GetMapping("/{codigo}")

@@ -62,6 +62,14 @@ public class Lancamento {
         this.dataVencimento = dataVencimento;
     }
 
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
     public BigDecimal getValor() {
         return valor;
     }
