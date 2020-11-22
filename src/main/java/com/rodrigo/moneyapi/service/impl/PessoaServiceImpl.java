@@ -3,10 +3,13 @@ package com.rodrigo.moneyapi.service.impl;
 import com.rodrigo.moneyapi.exception.ResourceNotFoundException;
 import com.rodrigo.moneyapi.model.Pessoa;
 import com.rodrigo.moneyapi.repository.PessoaRepository;
+import com.rodrigo.moneyapi.repository.filter.PessoaFilter;
 import com.rodrigo.moneyapi.service.PessoaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -32,6 +35,11 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public List<Pessoa> buscarPessoas() {
         return repository.findAll();
+    }
+
+    @Override
+    public Page<Pessoa> buscarPessoasPorFiltro(PessoaFilter filter, Pageable pageable) {
+        return repository.filtrar(filter,pageable);
     }
 
     @Override

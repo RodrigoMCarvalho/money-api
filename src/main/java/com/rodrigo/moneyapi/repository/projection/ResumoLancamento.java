@@ -17,17 +17,6 @@ public class ResumoLancamento {
     private String categoria;
     private String pessoa;
 
-    public ResumoLancamento(Long codigo, String descricao, LocalDate dataVencimento, LocalDate dataPagamento, BigDecimal valor, TipoLancamento tipo, String categoria, String pessoa) {
-        this.codigo = codigo;
-        this.descricao = descricao;
-        this.dataVencimento = dataVencimento;
-        this.dataPagamento = dataPagamento;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.pessoa = pessoa;
-    }
-
     public ResumoLancamento(Lancamento lancamento) {
         this.codigo = lancamento.getCodigo();
         this.descricao = lancamento.getDescricao();
